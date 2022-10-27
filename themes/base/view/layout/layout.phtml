@@ -28,6 +28,11 @@ if (strpos($url, 'page/home') !== false) {
   $home = false;
 }
 ?>
+<style>
+  #local-header ul li a {
+    font-size: 1.1rem;
+  }
+</style>
 <?php echo $this->doctype(); ?>
 <?php echo $this->htmlElement('html'); ?>
     <head>
@@ -43,22 +48,23 @@ if (strpos($url, 'page/home') !== false) {
         <script src="https://unpkg.com/colcade@0/colcade.js"></script>
 
         <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-X95H7QQCZD"></script>
+        <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-X95H7QQCZD"></script> -->
 
         <!-- Google Fonts used in the housestyle -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons&amp;family=Source+Sans+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&amp;family=Source+Serif+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&amp;display=swap">
         
         <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <link rel="stylesheet" href="//stijl.kuleuven.be/releases/latest/css/main.css">
         <link rel="stylesheet" href="//stijl.kuleuven.be/releases/latest/css/wms.css">
 
-        <script>
+        <!-- <script>
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
         
           gtag('config', 'G-X95H7QQCZD');
-        </script>
+        </script> -->
     </head>
 
     <?php echo $this->htmlElement('body'); ?>
@@ -95,8 +101,8 @@ if (strpos($url, 'page/home') !== false) {
       <nav class="local-header">
         <div class="container container-relative">
           <nav class="nav-header">
-            <h2>
-              <a href="<?php echo $site->url(); ?>">Herkul</a>
+            <h2 style="font-size: 2.5rem;">
+              <a href="<?php echo $site->url(); ?>">HERKUL</a>
               <a
                 href="#"
                 class="btn-toggle hidden-lg-up"
@@ -109,6 +115,13 @@ if (strpos($url, 'page/home') !== false) {
                 <span class="lines"></span>
               </a>
             </h2>
+            <img
+              class="logo text-right"
+              alt="logo"
+              src="<?php echo $this->assetUrl("img/herkul.png"); ?>"
+              width="157"
+              height="56"
+            />
           </nav>
 
           <nav class="nav-tabs nav-more collapse" id="local-header">
@@ -129,11 +142,11 @@ if (strpos($url, 'page/home') !== false) {
     <footer class="local-footer">
       <div class="footer-info">
         <div class="container">
-          <div class="reactionfull">
+          <!-- <div class="reactionfull">
             <p class="lastmodified">Laatste update: 01-01-2022</p>
             <span>Reacties op inhoud:</span>
             <a class="reaction" href=""></a>
-          </div>
+          </div> -->
         </div>
         <!-- end container -->      
       <!-- end footer-info -->

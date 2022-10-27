@@ -12,123 +12,61 @@ else:
   $type = "";
 endif;
 ?>
+<style>
+  div[class="row"] div p{
+    margin-bottom: 0%;
+  }
+  div[class="row"] div h3{
+    margin-top: 13px;
+  }
+</style>
+<?php
+$name = $item->value('schema:givenName') . ' ' . $item->value('schema:familyName');
+$resourceTemplateId = $item->resourceTemplate()->id();
+?>
+<section>
 <div class="container">
-  <div >
+  <div>
     <div id="portal-breadcrumbs" class="breadcrumbs" style="display:block;">
       <span class="breadcrumb-item">
           <a href="<?php echo $site->url();?>">Home</a>
       </span>
 
-      <?php if($type == 'Nieuws'):?>
-        <span class="breadcrumb-item" dir="ltr">
-          <a href="<?php echo $site->url()."/item/browse?resource_template_id=2";?>">Nieuws</a>
-        </span>
-      <?php else:?>
-        <span class="breadcrumb-item">
-          <a href="<?php echo $site->url()."/find";?>">Search</a>         
-        </span>    
-      <?php endif;?>
+      <span class="breadcrumb-item">
+        <a href="<?php echo $site->url()."/find";?>">Search</a>         
+      </span>    
+
       <span class="breadcrumb-item active">
-        <?php echo $item->displayTitle(); ?>
+        <?php if($resourceTemplateId == '6'): //test 2, prod 6
+          echo $name;
+        else:
+          echo $item->displayTitle();
+        endif;
+         ?>
       </span>
 
     </div>
   </div>
  
-  <h1><?php echo $item->displayTitle(); ?></h1>
-  <?php if($type == 'Nieuws'):?>
-    <!--<h2 class="subtitle is-6"><?php echo date('d-m-Y',strtotime($item->value('dcterms:date'))); ?></h2>-->
-  <?php endif;?> 
-
+  <h1>
+  <?php if($resourceTemplateId == '6'): //test 2, prod 6
+          echo $name;
+        else:
+          echo $item->displayTitle();
+        endif;
+  ?>
+  </h1>
   <?php
     $viewerlink = '';$fls=[];
   ?>
 
-  <?php if($type == 'Nieuws'):?>
-    <div class="columns">
-    <?php if (!$embedMedia && $itemMedia): ?>
-      <div class="col-4">
-        <?php if(sizeof($itemMedia) > 1):?>
-          <div class="slider-for">
-            <?php foreach($itemMedia as $media):?>
-              <div class="has-text-centered">
-                <?php $url = str_replace('http:', '', $media->thumbnailUrl('large'));?>
-                  <img src="<?php echo $url;?>">
-                <?php if($media->value('dcterms:title')):?>
-                  <figcaption>
-                    <?php echo $media->value('dcterms:title');?>
-                  </figcaption>
-                <?php endif;?>
-              </div>
-            <?php endforeach;?>
-          </div>
-        <?php else: ?>
-          <div class="beeld">
-            <?php $url = str_replace('http:', '', $itemMedia[0]->thumbnailUrl('large'));?>
-            <img src="<?php echo $url;?>">
-            <?php if($itemMedia[0]->value('dcterms:title')):?>
-              <figcaption>
-                <?php echo $itemMedia[0]->value('dcterms:title');?>
-            </figcaption>
-            <?php endif;?>
-          </div>
-        <?php endif;?>
-      </div>
-    <?php endif; ?>
-    <div class="col-7">
-      <div class="text-box content">
-        <?php $date =  $item->value('dcterms:date');?>
-        <?php if($date):?>
-          <?php $date = new DateTime($date->asHtml());?>
-          <div style="margin-bottom:0.6rem;color:#666;">
-            <?php echo $date->format('d-m-Y');?>
-          </div>            
-        <?php endif;?> 
-        <?php $descs =  $item->value('dcterms:description', array('all' => true));?>
-        <?php if($descs):?>
-          <?php foreach($descs as $desc):?>
-            <div style="margin-top:0.6rem;">
-              <?php if ($res = $desc->valueResource()) {?>    
-                <div style="background:#eee;padding:0.5rem;font-size:0.9rem;">     
-                  <?php if($res->getControllerName() == 'item'): ?>
-                      <span>Object</span>                          
-                  <?php else:?>   
-                      <span>Collectie</span>
-                  <?php endif;?> 
-                </div>
-                <div style="background:#fafafa;padding:1rem;">                  
-                  <?php echo $desc->asHtml();?>
-                </div>                      
-              <?php }elseif($desc->type() == 'uri'){ ?>                      
-                  <?php if (strpos($desc->asHtml(), 'blendeff') !== false): ?>
-                    <div style="background:#eee;padding:0.5rem;font-size:0.9rem;">
-                      <span>Verhaal</span>              
-                    </div>  
-                  <?php endif;?>              
-                <div style="background:#fafafa;padding:1rem;">   
-                <div class="icon-text">
-                    <span class="icon">
-                      <i class="fas fa-chevron-right"></i>
-                    </span>
-                    <span><?php echo $desc->asHtml();?></span>
-                </div>
-                </div>
-              <?php }else{ ?>                      
-                    <?php echo $desc->asHtml();?>
-              <?php } ?>
-            </div>
-          <?php endforeach;?>
-        <?php endif;?>
-      </div>
-    </div>
-  </div>
-  <?php else:?>
     <div class="row">
       <?php if (!$embedMedia && $itemMedia): ?>
-        <div class="col-xs-12 col-md-4">
+        <!-- afbeelding -->
+        <div class="col-xs-12 col-md-2"> 
           <?php foreach($itemMedia as $media):?>
             <div class="has-text-centered">
-              <?php $url = str_replace('http:', '', $media->thumbnailUrl('medium'));?>
+              <?php $url = str_replace('http:', '', $media->thumbnailUrl('large'));?>
               <?php $link = $url;?>
               <?php if($viewerlink):?>
                   <?php $link = $viewerlink;?>
@@ -137,36 +75,206 @@ endif;
             </div>
           <?php endforeach;?>
         </div>         
-      <?php endif;?>
+        <?php endif;?>
+
       <div class="col-xs-12 col-md-8">
         <div class="text-box" style="height:100%;margin-bottom:0;">
-          <?php echo $item->displayValues(); ?>
+
+          <!-- PERSON -->
+          <?php if($resourceTemplateId == '6'): ?><!-- test 2, prod 6 -->
+          <?php
+          $postal = $item->value('schema:postalCode') . ' ' . $item->value('schema:addressRegion');
+          ?>
+          <div class="row">
+            <div class="col-xs-12 col-md-6" style="border-right:1px #ccc solid;">
+                <h3>Address</h3>
+                <a href="/herkul/s/en/find?facet[schema:affiliation][]=<?php echo $item->value('schema:affiliation');?>"><?php echo $item->value('schema:affiliation');?></a>
+                <p style="margin-bottom:0%;"><?php echo $item->value('schema:streetAddress');?></p>
+                <?php if($item->value('schema:postOfficeBoxNumber')){ ?>
+                <p><?php echo $item->value('schema:postOfficeBoxNumber');?></p>
+                <?php }?>
+                <p><?php echo $postal;?></p>
+                <?php if($item->value('schema:contactPoint')){?>
+                <p><?php echo $item->value('schema:contactPoint')->asHtml();?></p>
+                <?php }?>
+              <?php
+              $members = $item->value('schema:sourceOrganization', ['all' => true]);
+              if($item->value('schema:sourceOrganization') && $members[0]->valueResource()){?>
+              <h3>Organisation(s)</h3>
+              <?php foreach($members as $member) {
+                $linkedName = $member->valueResource()->displayTitle();
+              ?>
+              <p><a href="<?php echo $member;?>"><?php echo $linkedName;?></a></p>
+              <?php }}
+              ?>
+              <?php
+              $members = $item->value('schema:memberOf', ['all' => true]);
+              if($item->value('schema:memberOf') && $members[0]->valueResource()){?>
+              <h3>Working Group(s)</h3>  
+              <?php foreach($members as $member) {
+                $linkedName = $member->valueResource()->displayTitle();
+              ?>
+              <p><a href="<?php echo $member;?>"><?php echo $linkedName;?></a></p>
+              <?php }}?>
+            </div>
+            <div class="col-xs-12 col-md-6">
+              <h3>Professional profile</h3>
+              <div style="margin-bottom: 13px;">
+                <?php if($item->value('schema:hasOccupation')){ ?>
+                <a href="/herkul/s/en/find?facet[schema:hasOccupation][]=<?php echo $item->value('schema:hasOccupation');?>"><?php echo $item->value('schema:hasOccupation');?></a>
+                <?php }?>
+                <?php
+                  $skills = $item->value('schema:skills', ['all' => true]);
+                  if($item->value('schema:skills')){?>
+                  <p><span>Field of work:</span>
+                    <?php
+                $skillList = implode(', ',$skills);
+                echo $skillList;
+                ?>
+                </p>
+                <?php }?>
+                <?php
+                  $keywords = $item->value('schema:keywords', ['all' => true]);
+                  usort($keywords, function ($a, $b){
+                    return strcmp($a->value('schema:keywords'), $b->value('schema:keywords'));
+                  });
+                  if($item->value('schema:keywords')){?>
+                  <p><span>Research keywords:</span>
+                    <?php
+                $keywordList = implode(', ',$keywords);
+                echo $keywordList;
+                ?>
+                </p>
+                <?php }?>
+                  </div>
+                <?php if($item->value('schema:knowsAbout')){ //knows in test, knowsAbout op prod
+                  echo $item->value('schema:knowsAbout')->asHtml();
+                }
+                ?>
+                <?php if($item->value('schema:identifier')){
+                  echo '<p><span>ORCID:</span> ' . $item->value('schema:identifier') . '</p>';
+                }
+                ?>
+                <?php if($item->value('schema:citation')){
+                  echo $item->value('schema:citation')->asHtml();
+                }
+                ?>
+                <?php
+                  $links = $item->value('schema:relatedLink', ['all' => true]);
+                  if($item->value('schema:relatedLink')){
+                    foreach($links as $link) {
+                      echo $link->asHtml();
+                    } }?>
+            </div>
+          </div>
+
+          <!-- ORGANISATION -->
+          <?php elseif($resourceTemplateId == '9'): ?> <!-- test 3, prod 9-->
+          <?php
+          $postal = $item->value('schema:postalCode') . ' ' . $item->value('schema:addressRegion');
+          ?>
+          <div class="row">
+            <div class="col-xs-12 col-md-6" style="border-right:1px #ccc solid;">
+                <h3>Address</h3>
+                <a href="/herkul/s/en/find?facet[schema:affiliation][]=<?php echo $item->value('schema:affiliation');?>"><?php echo $item->value('schema:affiliation');?></a>
+                <p style="margin-bottom:0%;"><?php echo $item->value('schema:streetAddress');?></p>
+                <p><?php echo $item->value('schema:postOfficeBoxNumber');?></p>
+                <p><?php echo $postal;?></p>
+                <h3>Contact</h3>
+                <?php
+              $coordinators = $item->value('schema:contactPoint', ['all' => true]);
+              if($item->value('schema:contactPoint') && $coordinators[0]->valueResource()){
+              foreach($coordinators as $coordinator) {
+                $linkedName = $coordinator->valueResource()->value('schema:givenName') . ' ' . $coordinator->valueResource()->value('schema:familyName');
+              ?>
+              <p><a href="<?php echo $coordinator;?>"><?php echo $linkedName;?></a></p>
+              <?php }}?>
+                <p><?php echo $item->value('schema:citation')->asHtml();?></p>
+            </div>
+            <div class="col-xs-12 col-md-6">
+              <h3>Member(s)</h3>
+              <?php
+              $members = $item->value('schema:member', ['all' => true]);
+              usort($members, function ($a, $b){
+                return strcmp($a->valueResource()->displayTitle(), $b->valueResource()->displayTitle());
+              });
+              if($item->value('schema:member') && $members[0]->valueResource()){
+              foreach($members as $member) {
+                $linkedName = $member->valueResource()->value('schema:givenName') . ' ' . $member->valueResource()->value('schema:familyName');
+              ?>
+              <p><a href="<?php echo $member;?>"><?php echo $linkedName;?></a></p>
+              <?php }}?>
+            </div>
+          </div>
+
+          <!-- WORKING GROUP -->
+          <?php elseif($resourceTemplateId == '12'): ?> <!--test 4, prod 12-->
+          <div class="row">
+            <div class="col-xs-12 col-md-6" style="border-right:1px #ccc solid;">
+            <?php if($item->value('schema:affiliation')){ ?>
+            <h3>Institution</h3>
+            <a href="/herkul/s/en/find?facet[schema:affiliation][]=<?php echo $item->value('schema:affiliation');?>"><?php echo $item->value('schema:affiliation');?></a>
+            <?php }?>
+            <h3>Member(s)</h3>
+              <?php
+              $members = $item->value('schema:member', ['all' => true]);
+              usort($members, function ($a, $b){
+                return strcmp($a->valueResource()->displayTitle(), $b->valueResource()->displayTitle());
+              });
+              if($item->value('schema:member') && $members[0]->valueResource()){
+              foreach($members as $member) {
+                $linkedName = $member->valueResource()->value('schema:givenName') . ' ' . $member->valueResource()->value('schema:familyName');
+              ?>
+              <p><a href="<?php echo $member;?>"><?php echo $linkedName;?></a></p>
+              <?php }}?>
+            </div>
+            <div class="col-xs-12 col-md-6">
+            <?php
+              $keywords = $item->value('schema:keywords', ['all' => true]);
+              usort($keywords, function ($a, $b){
+                return strcmp($a->value('schema:keywords'), $b->value('schema:keywords'));
+              });
+              if($item->value('schema:keywords')){?>
+                <h3>Research keywords</h3>
+                <?php
+                $keywordList = implode(', ',$keywords);
+                echo $keywordList;
+              }?>
+              <?php if($item->value('schema:description')){ ?>
+              <h3>Description</h3>
+              <p><?php echo $item->displayDescription(); ?></p>
+              <?php }?>
+            </div>
+          </div>
+          <?php endif;?>
         </div>
       </div>
-    </div>     
-    <?php
-      $plugins = $this->getHelperPluginManager();
-      $hasNext = $plugins->has('previousResource');
-    ?>
-    <?php if ($hasNext): ?>
-    <div class="previous-next-items">
-        <?php if ($previous = $this->previousResource($resource)): ?>
-        <?= $previous->link($translate('Previous item'), null, ['class' => 'previous-item']) ?>
-        <?php endif; ?>
-        <?php if ($next = $this->nextResource($resource)): ?>
-        <?= $next->link($translate('Next item'), null, ['class' => 'next-item']) ?>
-        <?php endif; ?>
     </div>
-    <?php endif; ?>
-        </div>
-    </section>
-<?php endif;?>
-<?php
-$page = $this->params()->fromQuery('page', 1);
-$property = $this->params()->fromQuery('property');
-$subjectValues = $item->subjectValues();
-?>
-</div>
+    <!-- tweede rij vr Organisation keywords en description -->
+    <?php if($resourceTemplateId == '9'): ?> <!-- test 3, prod 9 -->
+    <div class="row">
+      <div class="col-xs-12">
+      <?php
+      $keywords = $item->value('schema:keywords', ['all' => true]);
+      usort($keywords, function ($a, $b){
+        return strcmp($a->value('schema:keywords'), $b->value('schema:keywords'));
+      });
+      if($item->value('schema:keywords')){?>
+        <h3>Research keywords</h3>
+        <?php
+                $keywordList = implode(', ',$keywords);
+                echo $keywordList;
+        }?>
+        <?php if($item->value('schema:description')){ ?>
+        <h3>Description</h3>
+        <p><?php echo $item->displayDescription(); ?></p>
+        <?php }?>
+      </div>
+    </div>
+    <?php endif;?>
+  </div>
+</section>
+
 
 <?php $this->trigger('view.show.after'); ?>
 <script>

@@ -33,23 +33,43 @@ $bodyTerm = $setting('browse_body_property_term');
 $gridListMode = $searchPage ? $searchPage->subSetting('display', 'grid_list_mode', 'auto') : 'auto';
 
 $defaultThumbnail = '<img src="' . $assetUrl('thumbnails/default.png', 'Omeka', true) . '" title="' . $translate('No media') . '"/>';
+
+$url = $this->serverUrl(true);
+if (strpos($url, '/findPer') !== false) {
+    $searchPageResourceId = '6'; //test 2, prod 6
+}elseif(strpos($url, '/findWG') !== false){
+  $searchPageResourceId = '12'; //test 4, prod 12
+} elseif(strpos($url, '/findOrg') !== false){
+  $searchPageResourceId = '9'; //test 3, prod 9
+} else {
+  $searchPageResourceId = false;
+}
 ?>
 
-<?php if ($title): ?>
+<!-- <?php if ($title): ?>
 <h3><?= $escape($title) ?></h3>
-<?php endif; ?>
+<?php endif; ?> -->
 <ul class="resource-list search-results-list<?= $gridListMode === 'list_only' ? ' list' : ($gridListMode === 'grid_only' ? ' grid' : '') ?>">
     <?php /** @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation $resource */
     foreach ($resources as $resource):
         $resourceType = $resource->resourceName();
+        $resourceTemplateId = $resource->resourceTemplate()->id();
         $media = $resource->primaryMedia();
         $thumbnail = $media ? $thumbnailHelper($media, 'medium') : $defaultThumbnail;
         $heading = $headingTerm ? $resource->value($headingTerm, ['lang' => $langValue]) : null;
         $heading = $heading ? $heading->asHtml() : $escape($resource->displayTitle($translate('[Untitled]'), $lang));
+        if($resourceTemplateId == '6'){
+            $heading = $heading ? $resource->value('schema:givenName') . ' ' . $resource->value('schema:familyName') : $heading;
+        }
         $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : null;
         $body = $body ? $body->asHtml() : $escape($resource->displayDescription(null, $lang));
     ?>
 
+    <?php
+    if($searchPageResourceId != $resourceTemplateId && $searchPageResourceId !== false){
+        continue;
+    }
+    ?>
     <li class="resource <?= $resourceType ?>">
         <div class="resource-thumbnail">
             <?= $hyperlink->raw($thumbnail, $resource->url(), ['class' => 'resource-link']) ?>

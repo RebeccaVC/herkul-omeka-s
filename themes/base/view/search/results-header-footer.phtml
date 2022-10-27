@@ -22,7 +22,7 @@ $displayParts = [
     'sort' => 'header',
     'grid_list' => 'header',
     'grid_list_mode' => 'auto',
-];
+]; 
 $displayParts = $searchPage ? $searchPage->setting('display', $displayParts) : $displayParts;
 $displayParts = array_filter($displayParts, function ($v) use ($resultPart) { return in_array($v, [$resultPart, 'both']); });
 

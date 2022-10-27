@@ -114,17 +114,18 @@ class MainSearchForm extends Form
 
         // The main query is always the first element and submit the last one.
         // TODO Allow to order and to skip "q" (include it as a standard filter).
-
+        
         $this
             ->add([
                 'name' => 'q',
                 'type' => Element\Search::class,
-                'options' => [
-                    'label' => 'Search', // @translate
-                ],
+                // 'options' => [
+                //     'label' => 'Search', // @translate
+                // ],
                 'attributes' => [
                     'id' => 'q',
                     'data-type-field' => 'q',
+                    'placeholder' => 'Search for a name or keyword; example: culture, middle ages, ...',
                 ],
             ])
         ;
