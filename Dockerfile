@@ -36,13 +36,13 @@ RUN usermod -u 1000 www-data
 RUN wget --no-verbose "https://github.com/omeka/omeka-s/releases/download/v3.1.2/omeka-s-3.1.2.zip" -O /var/www/omeka-s.zip
 RUN unzip -q /var/www/omeka-s.zip -d /var/www/ \
 &&  rm /var/www/omeka-s.zip \
-&&  rm -rf /var/www/html/herkul/ \
-&&  mv /var/www/omeka-s /var/www/html/herkul/ \
+&&  rm -rf /var/www/html/memberdatabase/ \
+&&  mv /var/www/omeka-s /var/www/html/memberdatabase/ \
 &&  chown -R www-data:www-data /var/www/html/
 
 ADD php.ini-development /usr/local/etc/php
 
-VOLUME /var/www/html/herkul/
+VOLUME /var/www/html/memberdatabase/
 
 COPY extra.ini /usr/local/etc/php/conf.d/
 COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini

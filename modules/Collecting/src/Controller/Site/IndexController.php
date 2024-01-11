@@ -168,6 +168,24 @@ class IndexController extends AbstractActionController
         foreach ($cForm->prompts() as $prompt) {
             if (!isset($postedPrompts[$prompt->id()])) {
                 // This prompt was not found in the POSTed data.
+                // Check if this is default metadata, not passed to the form.
+                if ($prompt->type() === 'metadata') {
+                    switch ($prompt->inputType()) {
+                        case 'resource_class':
+                            $resourceClass = $api->searchOne('resource_classes', ['term' => $prompt->selectOptions()])->getContent();
+                            if ($resourceClass) {
+                                $itemData['o:resource_class'] = ['o:id' => $resourceClass->id()];
+                            }
+                            break;
+                        case 'resource_template':
+                            try {
+                                $resourceTemplate = $api->read('resource_templates', ['id' => $prompt->selectOptions()])->getContent();
+                                $itemData['o:resource_template'] = ['o:id' => $resourceTemplate->id()];
+                            } catch (\Omeka\Api\Exception\NotFoundException $e) {
+                            }
+                            break;
+                    }
+                }
                 continue;
             }
             switch ($prompt->type()) {

@@ -1,14 +1,15 @@
 <?php
 use Zend\Form\Element\Textarea;
 ?>
-<h4>Title (optional)</h4>
+
+<h4>Text on the left (first row)</h4>
 <div class="field">
   <div class="inputs">
+      <h5>Title</h5>
       <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('title')); ?>" name="o:block[__blockIndex__][o:data][title]">
   </div>
 </div>
-
-<h4>Text</h4>
+<h5>Text</h5>
 <?php
   $textarea = new Textarea("o:block[__blockIndex__][o:data][text]");
   $textarea->setAttribute('class', 'block-html full wysiwyg');
@@ -18,13 +19,101 @@ use Zend\Form\Element\Textarea;
 ?>
 <?php echo $this->formRow($textarea);?>
 
-<h4>Text (optional)</h4>
-This creates an extra column<br>
+<h4>Text on the right (first row)</h4>
+<div class="field">
+  <div class="inputs">
+      <h5>Title</h5>
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('title2')); ?>" name="o:block[__blockIndex__][o:data][title2]">
+  </div>
+</div>
+<h5>Text</h5>
 <?php
   $textarea = new Textarea("o:block[__blockIndex__][o:data][text2]");
   $textarea->setAttribute('class', 'block-html full wysiwyg');
   if ($block) {
       $textarea->setAttribute('value', $block->dataValue('text2'));
+  }
+?>
+<?php echo $this->formRow($textarea);?>
+<br>
+<h4>Text left (second row)</h4>
+<div class="field">
+  <div class="inputs">
+      <h5>Title</h5>
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('title3')); ?>" name="o:block[__blockIndex__][o:data][title3]">
+  </div>
+</div>
+<p>Upper text</p>
+<div class="field">
+  <div class="inputs">
+      <h5>Title</h5>
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('title4')); ?>" name="o:block[__blockIndex__][o:data][title4]">
+  </div>
+</div>
+<h5>Text</h5>
+<?php
+  $textarea = new Textarea("o:block[__blockIndex__][o:data][text3]");
+  $textarea->setAttribute('class', 'block-html full wysiwyg');
+  if ($block) {
+      $textarea->setAttribute('value', $block->dataValue('text3'));
+  }
+?>
+<?php echo $this->formRow($textarea);?>
+
+<p>Bottom text</p>
+<div class="field">
+  <div class="inputs">
+      <h5>Title</h5>
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('title5')); ?>" name="o:block[__blockIndex__][o:data][title5]">
+  </div>
+</div>
+<h5>Text</h5>
+<?php
+  $textarea = new Textarea("o:block[__blockIndex__][o:data][text4]");
+  $textarea->setAttribute('class', 'block-html full wysiwyg');
+  if ($block) {
+      $textarea->setAttribute('value', $block->dataValue('text4'));
+  }
+?>
+<?php echo $this->formRow($textarea);?>
+<br>
+<h4>Text to the right (second row)</h4>
+<div class="field">
+  <div class="inputs">
+      <h5>Title</h5>
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('title6')); ?>" name="o:block[__blockIndex__][o:data][title6]">
+  </div>
+</div>
+<p>Upper text</p>
+<div class="field">
+  <div class="inputs">
+    <h5>Title</h5>
+    <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('title7')); ?>" name="o:block[__blockIndex__][o:data][title7]">
+  </div>
+</div>
+<h5>Text</h5>
+<?php
+  $textarea = new Textarea("o:block[__blockIndex__][o:data][text5]");
+  $textarea->setAttribute('class', 'block-html full wysiwyg');
+  if ($block) {
+      $textarea->setAttribute('value', $block->dataValue('text5'));
+  }
+?>
+<?php echo $this->formRow($textarea);?>
+
+<p>Bottom text</p>
+<div class="field">
+  <div class="inputs">
+      <h5>Title</h5>
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('title8')); ?>" name="o:block[__blockIndex__][o:data][title8]">
+  </div>
+</div>
+<h5>Text</h5>
+<?php
+  $textarea = new Textarea("o:block[__blockIndex__][o:data][text6]");
+  $textarea->setAttribute('class', 'block-html full wysiwyg');
+  if ($block) {
+      $textarea->setAttribute('value', $block->dataValue('text6'));
   }
 ?>
 <?php echo $this->formRow($textarea);?>

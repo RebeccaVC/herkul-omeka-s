@@ -106,6 +106,7 @@ class CollectingPrompt extends AbstractEntity
             'user_private' => 'User Private', // @translate
             'user_public' => 'User Public', // @translate
             'html' => 'HTML', // @translate
+			'metadata' => 'Default metadata', // @translate
         ];
     }
 

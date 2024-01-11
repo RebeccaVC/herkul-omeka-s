@@ -28,11 +28,6 @@ if (strpos($url, 'page/home') !== false) {
   $home = false;
 }
 ?>
-<style>
-  #local-header ul li a {
-    font-size: 1.1rem;
-  }
-</style>
 <?php echo $this->doctype(); ?>
 <?php echo $this->htmlElement('html'); ?>
     <head>
@@ -41,8 +36,7 @@ if (strpos($url, 'page/home') !== false) {
         <?php echo $this->headLink(); ?>
         <?php echo $this->headStyle(); ?>
         <?php echo $this->headScript(); ?>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://kit.fontawesome.com/582fb8c29f.js" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/colcade@0/colcade.js"></script>
@@ -65,8 +59,16 @@ if (strpos($url, 'page/home') !== false) {
         
           gtag('config', 'G-X95H7QQCZD');
         </script> -->
+        <style>
+            #local-header ul li a {
+             font-size: 1.1rem;
+            }
+            .values .value .actions .remove-value {
+             display: none;
+            }
+         </style>
     </head>
-
+    
     <?php echo $this->htmlElement('body'); ?>
     <?php echo $userBar; ?>
     <div class="l-page">
@@ -83,6 +85,8 @@ if (strpos($url, 'page/home') !== false) {
             />
           </a>
           <div class="controls">
+            <a class="btn" href="/memberdatabase/s/en/guest/login">Login</a>
+            <a class="btn" href="/memberdatabase/s/en/guest/register">Register</a>
             <a class="btn btn-ext btn-home" href="https://www.kuleuven.be/kuleuven/">KU Leuven Home</a>
             <a
               href="#"
@@ -341,8 +345,6 @@ if (strpos($url, 'page/home') !== false) {
     </aside>
 
     <script src="../js/all.min.js"></script>
-  </body>
-</html>
   
   <script>
   $(document).ready(function() {
@@ -372,5 +374,5 @@ if (strpos($url, 'page/home') !== false) {
 <!-- Latest compiled and minified JS -->
 <script src="//stijl.kuleuven.be/releases/latest/js/all.min.js"></script>
 
-
+</body>
 </html>

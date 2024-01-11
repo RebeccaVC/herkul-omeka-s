@@ -24,7 +24,7 @@ $displayCount = !empty($options['display_count']);
     ?>
     <li class="search-facet-item">
         <input type="checkbox" name="facet[<?= $name ?>][]" id="<?= $escapedId ?>" value="<?= $escapedValue ?>"<?= $isFacetModeDirect ? ' data-url="' . $escapeAttr($facetValue['url']) . '"' : '' ?><?= $facetValue['active'] ? ' checked="checked"' : '' ?>/>
-        <label for="<?= $escapedId ?>"><?= $label ?></label>
+        <label for="<?= $escapedId ?>" style="display: initial;"><?= $label ?></label>
     </li>
     <?php endforeach; ?>
 </ul>

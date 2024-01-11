@@ -1,0 +1,201 @@
+<head>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+
+<div class="container container-block">
+  <div class="row">
+    <div class="col-xs-12 col-md-8">
+      <div class="kul-card-image card card-secondary card-50-50">
+        <a class="card-img-link" href="">
+          <div class="card-img-left" style="background-image: url(https://heritage.kuleuven.be/about_herkul/images/herkul3.jpg/image);">&nbsp;</div>
+        </a>
+        <div class="card-body">
+          <?php if($block->dataValue('title')):?>
+          <h2 class="card-title"><?php echo $block->dataValue('title'); ?></h2>
+          <?php endif;?>
+          <?php if($block->dataValue('text')):?>
+            <p><?php echo $block->dataValue('text');?></p>
+          <?php endif;?>
+          <!-- <p>
+          For a successful launch, HERKUL has gathered a  large group of experts from diverse fields associated with cultural heritage. Together, they will provide an expertise capable of facilitating intra-institutional collaborations, extra-institutional partnering, (inter)national visibility, as well as inter- and trans-disciplinary cooperation.
+          </p> -->
+          <!-- <p><a class="btn btn-ghost" href="">Lees verder</a></p> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-md-4">
+      <div class="kul-card-image card card-primary">
+        <div class="card-body">
+        <?php if($block->dataValue('title2')):?>
+          <h2 class="card-title"><?php echo $block->dataValue('title2'); ?></h2>
+          <?php endif;?>
+          <!-- <h2 class="card-title"><a href=""></a>A trans-disciplinary institute</h2> -->
+          <?php if($block->dataValue('text2')):?>
+            <p><?php echo $block->dataValue('text2'); ?></p>
+          <?php endif;?>
+          <!-- <p>HERKUL aims to impact on institutional, national, European and international research programmes, while at the same time fully incorporating knowledge present in the critical mass and savoir faire of the KU Leuven to sustain both its own needs in the domain of cultural heritage, as well as of those beyond the institution.</p>
+          <p><a class="btn btn-ghost-inv more" href="">More working groups</a></p> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-md-4">
+      <div class="card card-gray collection card card-body card-activity card-gray ">
+      <?php if($block->dataValue('title3')):?>
+          <h2><span><?php echo $block->dataValue('title3'); ?></span></h2>
+          <?php endif;?>
+        <!-- <h2 >
+            <span>Research Priorities</span>
+        </h2> -->
+        <ul class="activity-list">
+          <li><div class="main">
+            <!-- <div class="date">Connecting Space & Time</div> -->
+            <?php if($block->dataValue('title4')):?>
+          <div style="color: #067aac;"><?php echo $block->dataValue('title4'); ?></div>
+          <?php endif;?>
+            <?php if($block->dataValue('text3')):?>
+            <p><?php echo $block->dataValue('text3'); ?></p>
+          <?php endif;?>
+            <!-- <p>
+              HERKUL takes la condition humaine as its point of departure, entailing that our lives take part in history, as much as they make history. These are active and open-ended processes, characterised by change. Research on cultural heritage is instrumental to develop deeper interdisciplinary conceptualisations and epistemologies, and translate them into operational actions. For instance, HERKUL aims at connecting the KU Leuven institute within its historical and spatial context, not the least in regards to the celebration of its 600th anniversary in 2025.
+            </p> -->
+            </div>
+          </li>
+          <li><div class="main">
+          <!-- <div class="date">Preservation & Management</div> -->
+          <?php if($block->dataValue('title5')):?>
+          <div style="color: #067aac;"><?php echo $block->dataValue('title5'); ?></div>
+          <?php endif;?>
+          <?php if($block->dataValue('text4')):?>
+            <p><?php echo $block->dataValue('text4'); ?></p>
+          <?php endif;?>
+            <!-- <p>
+              Within the KU Leuven, a wide expertise on the material preservation of cultural heritage has been cultivated. HERKUL wishes to engage with safeguarding tangible, intangible and digital heritage, and sees potential in the fora on ethical dimension of cultural heritage, as well as the impact of climate change thereupon.
+            </p> -->
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-md-4">
+      <div class="kul-card-image card card-gray">
+        <div class="card-body">
+        <?php if($block->dataValue('title6')):?>
+          <h2 class="card-title"><?php echo $block->dataValue('title6'); ?></h2>
+          <?php endif;?>
+          <!-- <h2>Research Priorities</h2> -->
+
+          <ul class="activity-list">
+            <li><div class="main">
+              <!-- <div class="date">Data science & knowledge sharing</div> -->
+              <?php if($block->dataValue('title7')):?>
+          <div style="color: #067aac;"><?php echo $block->dataValue('title7'); ?></div>
+          <?php endif;?>
+              <?php if($block->dataValue('text5')):?>
+            <p><?php echo $block->dataValue('text5'); ?></p>
+          <?php endif;?>
+              <!-- <p>
+                Nowadays, the fast pace of development of data sciences within cultural heritage reflects a growing interest in digital humanities, and benefits the implemention of digital technologies facilitating the management of cultural heritage. This research priority taps into the important and vital digital infrastructure that has been set in place at KU Leuven.
+              </p> -->
+              </div>
+            </li>
+            <li><div class="main">
+              <!-- <div class="date">Resource for well-being and sustainability</div> -->
+              <?php if($block->dataValue('title8')):?>
+          <div style="color: #067aac;"><?php echo $block->dataValue('title8'); ?></div>
+          <?php endif;?>
+              <?php if($block->dataValue('text6')):?>
+            <p><?php echo $block->dataValue('text6'); ?></p>
+          <?php endif;?>
+              <!-- <p>
+                People are at the centre of cultural heritage. By understanding the contribution of cultural heritage to well-being and sustainable development, HERKUL involves society at large in the production, circulation and conservation of culture. Heritage is made, preserved, and enjoyed by the community.
+              </p> -->
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-md-4">
+      <div class="kul-card-image card card-contact">
+        <div class="card-body">
+          <h2>Contact HERKUL</h2>
+          <p>
+          If you are not satisfied with the entry for yourself in the database, 
+if you wish to make a modification, be removed from the database, 
+or add or remove any information and/or images and keywords, please contact us at:
+          </p>
+
+
+<?php
+
+if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response'])){
+
+$curlx = curl_init();
+
+curl_setopt($curlx, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+curl_setopt($curlx, CURLOPT_HEADER, 0);
+curl_setopt($curlx, CURLOPT_RETURNTRANSFER, 1); 
+curl_setopt($curlx, CURLOPT_POST, 1);
+
+$post_data = 
+[
+    'secret' => '6LdsRzAjAAAAAA_WcYJzieo8BMxxIMDcSFsM3d4e', //<--- your reCaptcha secret key
+    'response' => $_POST['g-recaptcha-response']
+];
+
+curl_setopt($curlx, CURLOPT_POSTFIELDS, $post_data);
+
+$resp = json_decode(curl_exec($curlx));
+
+curl_close($curlx);
+
+if ($resp->success) 
+{?>
+            <div class="vcard-item" id="captcha">
+              <i class="material-icons vcard-icon">email</i>
+              <div class="mail">  
+                <a href="mailto:herkul@kuleuven.be">herkul@kuleuven.be</a>
+              </div>
+            </div>
+<?php 
+} else 
+{
+    // failed
+    
+}
+unset($_POST['g-recaptcha-response']);
+} ?>
+  <form action="#" id="my_captcha_form" method="POST">
+    <div class="g-recaptcha" data-sitekey="6LdsRzAjAAAAAJDJIqYprHrBsacc_2qULJ6Cjfhw"></div>
+    <p>
+    <button class="btn" type="submit" style="margin-top: 5px;">Show Email</button>
+    </p>
+  </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+document.getElementById("my_captcha_form").addEventListener("submit",function(evt)
+  {
+  
+  var response = grecaptcha.getResponse();
+  if(response.length == 0) 
+  { 
+    //reCaptcha not verified
+    alert("Please verify you are human by checking the reCAPTCHA!"); 
+    evt.preventDefault();
+    return false;
+  }
+  //captcha verified
+  //do the rest of your validations here
+  
+});
+</script>

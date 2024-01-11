@@ -1,4 +1,4 @@
-<div>
+<div class="container">
     <select class="collecting-form-select">
         <option value=""><?php echo $this->translate('Select a form...'); ?></option>
         <?php foreach ($cForms as $cForm): ?>
@@ -6,10 +6,26 @@
         <?php endforeach; ?>
     </select>
     <?php foreach ($cForms as $cForm): ?>
-    <div class="collecting-form <?php echo sprintf('collecting-form-%s', $cForm->id()); ?>">
+    <div class="collecting-forms <?php echo sprintf('collecting-form-%s', $cForm->id()); ?>">
         <?php echo $this->partial('common/block-layout/collecting-block-one', [
             'cForm' => $cForm,
         ]); ?>
     </div>
     <?php endforeach; ?>
 </div>
+<script>
+$(document).ready(function(){
+    $(":submit").addClass("button btn");
+    $(".collecting-form-select").change(function(){
+        $(this).find("option:selected").each(function(){
+            var optionValue = $(this).attr("value");
+            if(optionValue){
+                $(".collecting-forms").not(".collecting-form-" + optionValue).hide();
+                $(".collecting-form-" + optionValue).show();
+            } else{
+                $(".collecting-forms").hide();
+            }
+        });
+    }).change();
+});
+</script>

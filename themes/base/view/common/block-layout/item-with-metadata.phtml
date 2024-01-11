@@ -1,31 +1,58 @@
 <?php
 $translate = $this->plugin('translate');
+$embedMedia = $this->siteSetting('item_media_embed', false);
+$escape = $this->plugin('escapeHtml');
+
 ?>
-<div class="item-with-metadata">
+<div class="container" style="padding-bottom: 30px;">
+    <?php if($this->heading):?>
+    <h1><?php echo $this->heading;?></h1>
+    <?php endif;?>
+    <?php if($this->tekst):?>
+    <div style="margin-bottom: 15px;border-bottom:1px solid black;"><p><?php echo $this->tekst;?></p></div>
+    <?php endif;?>
+    <div class="row">
 <?php foreach($attachments as $attachment): ?>
     <?php $item = $attachment->item(); ?>
     <?php if (empty($item)) continue; ?>
-    <div class="resource show">
-    <?php echo $item->displayValues(); ?>
-    <?php if($item->itemSets()): ?>
-        <div class="property">
-            <h4><?php echo $translate('Item sets'); ?></h4>
-            <?php foreach ($item->itemSets() as $itemSet): ?>
-            <div class="value"><?php echo $itemSet->link($itemSet->displayTitle()); ?></div>
-            <?php endforeach; ?>
+    <?php $itemMedia = $item->media();?>
+    <div class="col-md-6" style="margin-bottom: 15px; border-bottom:1px solid gray;">
+        <div class="row" style="margin-bottom: 15px;">
+    <?php if (!$embedMedia && $itemMedia): ?>
+        <!-- afbeelding -->
+        <div class="col-xs-12 col-md-3"> 
+          <?php foreach($itemMedia as $media):?>
+            <div class="has-text-centered" style="border: 2px solid black;">
+              <?php $url = str_replace('http:', '', $media->thumbnailUrl('square'));?>
+              <?php $link = $url;?>
+              <?php $viewerlink = '';$fls=[];?>
+              <?php if($viewerlink):?>
+                  <?php $link = $viewerlink;?>
+              <?php endif;?> 
+              <a target="_blank" href="<?php echo $link;?>"><img src="<?php echo $url;?>" placeholder="<?php echo $this->assetUrl("img/place.png"); ?>"></a>
+            </div>
+          <?php endforeach;?>
         </div>
-    <?php endif; ?>
-    <?php if($item->media()): ?>
-        <div class="media-list">
-        <?php
-        foreach ($item->media() as $media):
-            echo $media->linkRaw($this->thumbnail($media, 'medium', ['title' => $media->displayTitle()]), null, [
-                'class' => 'media resource'
-            ]);
-        endforeach;
-        ?>
+        <!-- hier eventueel elsif met placholder image voor profile-->         
+        <?php endif;?>
+        <div class="col-xs-12 col-md-8">
+            <?php $name = $item->value('schema:givenName') . ' ' . $item->value('schema:familyName'); ?>
+            <h2><?php echo $name;?></h2>
+            <p><?php echo $item->value('schema:roleName'); ?></p>
+            <?php if($item->value('schema:contactPoint') != ''){?>
+            <p><?php echo $item->value('schema:contactPoint')->asHtml();?></p>
+            <?php } else {
+              $htmlContent = $escape($item->value('schema:contactPoint')->asHtml());
+              $con = preg_replace('/.*https:\/\/(.*)\/a.*/','https://${1}',$htmlContent);
+              $cont = str_replace('&', '', htmlspecialchars($con));
+              $contact = str_replace('amp;lt;', '', $cont);
+            ?>
+            <p><a href="<?php echo $contact;?>" target="_blank">Contact</a></p>
+            <?php } ?>
         </div>
-    <?php endif; ?>
+            </div>
+
     </div>
 <?php endforeach; ?>
+            </div>
 </div>

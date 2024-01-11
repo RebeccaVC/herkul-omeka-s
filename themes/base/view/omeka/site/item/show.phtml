@@ -23,6 +23,8 @@ endif;
 <?php
 $name = $item->value('schema:givenName') . ' ' . $item->value('schema:familyName');
 $resourceTemplateId = $item->resourceTemplate()->id();
+$linkedResources = $item->subjectValues();
+
 ?>
 <section>
 <div class="container">
@@ -88,15 +90,22 @@ $resourceTemplateId = $item->resourceTemplate()->id();
           <div class="row">
             <div class="col-xs-12 col-md-6" style="border-right:1px #ccc solid;">
                 <h3>Address</h3>
-                <a href="/herkul/s/en/find?facet[schema:affiliation][]=<?php echo $item->value('schema:affiliation');?>"><?php echo $item->value('schema:affiliation');?></a>
+                <a href="/memberdatabase/s/en/find?facet[schema:affiliation][]=<?php echo $item->value('schema:affiliation');?>"><?php echo $item->value('schema:affiliation');?></a>
                 <p style="margin-bottom:0%;"><?php echo $item->value('schema:streetAddress');?></p>
                 <?php if($item->value('schema:postOfficeBoxNumber')){ ?>
                 <p><?php echo $item->value('schema:postOfficeBoxNumber');?></p>
                 <?php }?>
                 <p><?php echo $postal;?></p>
-                <?php if($item->value('schema:contactPoint')){?>
-                <p><?php echo $item->value('schema:contactPoint')->asHtml();?></p>
-                <?php }?>
+                <?php if($item->value('schema:contactPoint') != ''){?>
+            <p><?php echo $item->value('schema:contactPoint')->asHtml();?></p>
+            <?php } else {
+              $htmlContent = $escape($item->value('schema:contactPoint')->asHtml());
+              $con = preg_replace('/.*https:\/\/(.*)\/a.*/','https://${1}',$htmlContent);
+              $cont = str_replace('&', '', htmlspecialchars($con));
+              $contact = str_replace('amp;lt;', '', $cont);
+            ?>
+            <p><a href="<?php echo $contact;?>" target="_blank">Contact</a></p>
+            <?php } ?>
               <?php
               $members = $item->value('schema:sourceOrganization', ['all' => true]);
               if($item->value('schema:sourceOrganization') && $members[0]->valueResource()){?>
@@ -120,13 +129,16 @@ $resourceTemplateId = $item->resourceTemplate()->id();
             <div class="col-xs-12 col-md-6">
               <h3>Professional profile</h3>
               <div style="margin-bottom: 13px;">
+                <?php if($item->value('schema:roleName')){ ?>
+                <p><?php echo $item->value('schema:roleName');?></p>
+                <?php }?>
                 <?php if($item->value('schema:hasOccupation')){ ?>
-                <a href="/herkul/s/en/find?facet[schema:hasOccupation][]=<?php echo $item->value('schema:hasOccupation');?>"><?php echo $item->value('schema:hasOccupation');?></a>
+                <a href="/memberdatabase/s/en/find?facet[schema:hasOccupation][]=<?php echo $item->value('schema:hasOccupation');?>"><?php echo $item->value('schema:hasOccupation');?></a>
                 <?php }?>
                 <?php
                   $skills = $item->value('schema:skills', ['all' => true]);
                   if($item->value('schema:skills')){?>
-                  <p><span>Field of work:</span>
+                  <p style="margin-top: 8px;"><span>Field of work:</span>
                     <?php
                 $skillList = implode(', ',$skills);
                 echo $skillList;
@@ -139,7 +151,7 @@ $resourceTemplateId = $item->resourceTemplate()->id();
                     return strcmp($a->value('schema:keywords'), $b->value('schema:keywords'));
                   });
                   if($item->value('schema:keywords')){?>
-                  <p><span>Research keywords:</span>
+                  <p style="margin-top: 8px;"><span>Research keywords: </span>
                     <?php
                 $keywordList = implode(', ',$keywords);
                 echo $keywordList;
@@ -152,7 +164,11 @@ $resourceTemplateId = $item->resourceTemplate()->id();
                 }
                 ?>
                 <?php if($item->value('schema:identifier')){
-                  echo '<p><span>ORCID:</span> ' . $item->value('schema:identifier') . '</p>';
+                  if(preg_match('/http/',$item->value('schema:identifier'))){
+                    echo '<a href="' . $item->value('schema:identifier') . '">ORCID</a>';
+                  } else {
+                    echo '<p><span><strong>ORCID:</strong></span> ' . $item->value('schema:identifier') . '</p>';
+                  }
                 }
                 ?>
                 <?php if($item->value('schema:citation')){
@@ -176,7 +192,7 @@ $resourceTemplateId = $item->resourceTemplate()->id();
           <div class="row">
             <div class="col-xs-12 col-md-6" style="border-right:1px #ccc solid;">
                 <h3>Address</h3>
-                <a href="/herkul/s/en/find?facet[schema:affiliation][]=<?php echo $item->value('schema:affiliation');?>"><?php echo $item->value('schema:affiliation');?></a>
+                <a href="/memberdatabase/s/en/find?facet[schema:affiliation][]=<?php echo $item->value('schema:affiliation');?>"><?php echo $item->value('schema:affiliation');?></a>
                 <p style="margin-bottom:0%;"><?php echo $item->value('schema:streetAddress');?></p>
                 <p><?php echo $item->value('schema:postOfficeBoxNumber');?></p>
                 <p><?php echo $postal;?></p>
@@ -189,11 +205,36 @@ $resourceTemplateId = $item->resourceTemplate()->id();
               ?>
               <p><a href="<?php echo $coordinator;?>"><?php echo $linkedName;?></a></p>
               <?php }}?>
+              <?php if($item->value('schema:citation')){?>
                 <p><?php echo $item->value('schema:citation')->asHtml();?></p>
+              <?php };?>
+                
             </div>
             <div class="col-xs-12 col-md-6">
               <h3>Member(s)</h3>
+              <!-- <?php
+                  $linkedResource = $linkedResources["schema:sourceOrganization"];
+                  //echo $linkedResource->resource()->value('schema:familyName');
+                  foreach($linkedResource as $relatedResource){
+                    $member = $relatedResource->resource()->value('schema:familyName');
+                    echo $member;
+                  }
+              ?> -->
               <?php
+              //$members = $item->value('schema:member', ['all' => true]);
+              if(array_key_exists('schema:sourceOrganization', $linkedResources)){        
+                $members = $linkedResources["schema:sourceOrganization"];      
+                usort($members, function ($a, $b){
+                  return strcmp($a->resource()->value('schema:familyName'), $b->resource()->value('schema:familyName'));
+                });
+                foreach($members as $member) {
+                  $linkedName = $member->resource()->value('schema:givenName') . ' ' . $member->resource()->value('schema:familyName');
+                ?>
+                <p><a href="<?php echo $member->resource()->url();?>"><?php echo $linkedName;?></a></p>
+              
+              <?php }}?>
+
+              <!-- <?php
               $members = $item->value('schema:member', ['all' => true]);
               usort($members, function ($a, $b){
                 return strcmp($a->valueResource()->displayTitle(), $b->valueResource()->displayTitle());
@@ -203,7 +244,7 @@ $resourceTemplateId = $item->resourceTemplate()->id();
                 $linkedName = $member->valueResource()->value('schema:givenName') . ' ' . $member->valueResource()->value('schema:familyName');
               ?>
               <p><a href="<?php echo $member;?>"><?php echo $linkedName;?></a></p>
-              <?php }}?>
+              <?php }}?> -->
             </div>
           </div>
 
@@ -213,19 +254,21 @@ $resourceTemplateId = $item->resourceTemplate()->id();
             <div class="col-xs-12 col-md-6" style="border-right:1px #ccc solid;">
             <?php if($item->value('schema:affiliation')){ ?>
             <h3>Institution</h3>
-            <a href="/herkul/s/en/find?facet[schema:affiliation][]=<?php echo $item->value('schema:affiliation');?>"><?php echo $item->value('schema:affiliation');?></a>
+            <a href="/memberdatabase/s/en/find?facet[schema:affiliation][]=<?php echo $item->value('schema:affiliation');?>"><?php echo $item->value('schema:affiliation');?></a>
             <?php }?>
             <h3>Member(s)</h3>
               <?php
-              $members = $item->value('schema:member', ['all' => true]);
+              //$members = $item->value('schema:member', ['all' => true]);
+              if(array_key_exists('schema:memberOf', $linkedResources)){ 
+              $members = $linkedResources["schema:memberOf"];
               usort($members, function ($a, $b){
-                return strcmp($a->valueResource()->displayTitle(), $b->valueResource()->displayTitle());
+                return strcmp($a->resource()->value('schema:familyName'), $b->resource()->value('schema:familyName'));
               });
-              if($item->value('schema:member') && $members[0]->valueResource()){
+              //if($item->value('schema:member') && $members[0]->valueResource()){
               foreach($members as $member) {
-                $linkedName = $member->valueResource()->value('schema:givenName') . ' ' . $member->valueResource()->value('schema:familyName');
+                $linkedName = $member->resource()->value('schema:givenName') . ' ' . $member->resource()->value('schema:familyName');
               ?>
-              <p><a href="<?php echo $member;?>"><?php echo $linkedName;?></a></p>
+              <p><a href="<?php echo $member->resource()->url();?>"><?php echo $linkedName;?></a></p>
               <?php }}?>
             </div>
             <div class="col-xs-12 col-md-6">

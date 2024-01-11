@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-//$('.collecting-form').hide();
+$('.collecting-form').hide();
 
 // Handle form selection when multiple forms are within one block.
 $('#content').on('change', '.collecting-form-select', function(e) {

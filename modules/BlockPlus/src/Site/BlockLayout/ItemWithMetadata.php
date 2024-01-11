@@ -57,6 +57,7 @@ class ItemWithMetadata extends AbstractBlockLayout
 
         $vars = [
             'heading' => $block->dataValue('heading', ''),
+            'tekst' => $block->dataValue('tekst', ''),
             'attachments' => $attachments,
         ];
         $template = $block->dataValue('template', self::PARTIAL_NAME);

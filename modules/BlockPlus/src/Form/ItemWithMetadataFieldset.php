@@ -20,6 +20,16 @@ class ItemWithMetadataFieldset extends Fieldset
                 ],
             ])
             ->add([
+                'name' => 'o:block[__blockIndex__][o:data][tekst]',
+                'type' => Element\Textarea::class,
+                'options' => [
+                    'label' => 'Summary text', // @translate
+                ],
+                'attributes' => [
+                    'class' => 'block-html full wysiwyg',
+                ],
+            ])
+            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][template]',
                 'type' => TemplateSelect::class,
                 'options' => [
